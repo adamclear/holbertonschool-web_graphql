@@ -7,7 +7,13 @@ const TaskType = new graphql.GraphQLObjectType({
 		id: {type: graphql.GraphQLString},
 		title: {type: graphql.GraphQLString},
 		weight: {type: graphql.GraphQLInt},
-		description: {type: graphql.GraphQLString}
+		description: {type: graphql.GraphQLString},
+		project: {
+			type: TaskType,
+			resolve: (parent, args) => {
+				return lodash.find(projects, {id: parent.projectId});
+			}
+		}
 	})
 });
 
@@ -17,7 +23,13 @@ const ProjectType = new graphql.GraphQLObjectType({
 		id: {type: graphql.GraphQLID},
 		title: {type: graphql.GraphQLString},
 		weight: {type: graphql.GraphQLInt},
-		description: {type: graphql.GraphQLString}
+		description: {type: graphql.GraphQLString},
+		tasks: {
+			type: new graphql.GraphQLList(TaskType),
+			resolve: (parent, args) => {
+				return lodash.filter(tasks, {projectId: parent.id});
+			}
+		}
 	})
 });
 
@@ -30,7 +42,7 @@ const RootQuery = new graphql.GraphQLObjectType({
 				id: {type: graphql.GraphQLID}
 			},
 		resolve: (parent, args) => {
-			return lodash.find(tasks, { id: args.id });
+			return lodash.find(tasks, {id: args.id});
 		}
 		},
 		project: {
@@ -39,7 +51,7 @@ const RootQuery = new graphql.GraphQLObjectType({
 				id: {type: graphql.GraphQLID}
 			},
 		resolve: (parent, args) => {
-			return lodash.find(projects, { id: args.id });
+			return lodash.find(projects, {id: args.id});
 		}
 		}
 	}),
