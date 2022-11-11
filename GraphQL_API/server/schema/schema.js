@@ -9,3 +9,21 @@ const TaskType = new graphql.GraphQLObjectType({
 		description: {type: graphql.GraphQLString}
 	})
 });
+
+const RootQuery = new graphql.GraphQLObjectType({
+	name: 'RootQueryType',
+	fields: () => ({
+		task: {
+			type: TaskType,
+			args: {
+				id: {type: graphql.GraphQLID}
+			}},
+		resolve: (parent, args) => {}
+	})
+});
+
+const schema = new graphql.GraphQLSchema({
+	query: RootQuery,
+});
+
+module.exports = schema;
