@@ -41,18 +41,30 @@ const RootQuery = new graphql.GraphQLObjectType({
 			args: {
 				id: {type: graphql.GraphQLID}
 			},
-		resolve: (parent, args) => {
-			return lodash.find(tasks, {id: args.id});
-		}
+			resolve: (parent, args) => {
+				return lodash.find(tasks, {id: args.id});
+			}
 		},
 		project: {
 			type: ProjectType,
 			args: {
 				id: {type: graphql.GraphQLID}
 			},
-		resolve: (parent, args) => {
-			return lodash.find(projects, {id: args.id});
-		}
+			resolve: (parent, args) => {
+				return lodash.find(projects, {id: args.id});
+			}
+		},
+		tasks: {
+			type: new graphql.GraphQLList(TaskType),
+			resolve: () => {
+				return tasks;
+			}
+		},
+		projects: {
+			type: new graphql.GraphQLList(ProjectType),
+			resolve: () => {
+				return projects;
+			}
 		}
 	}),
 });
