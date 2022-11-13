@@ -1,5 +1,7 @@
 const graphql = require('graphql');
 const lodash = require('lodash');
+const Project = require('../models/project');
+const Task = require('../models/task');
 
 const TaskType = new graphql.GraphQLObjectType({
 	name: 'Task',
@@ -67,6 +69,25 @@ const RootQuery = new graphql.GraphQLObjectType({
 			}
 		}
 	}),
+});
+
+const Mutation = new graphql.GraphQLObjectType({
+	name: 'Mutation',
+	fields: () => ({
+		addProject: {
+			type: ProjectType,
+			args: {
+				title: {type: new graphql.GraphQLNonNull(GraphQLString)},
+				weight: {type: new graphql.GraphQLNonNull(GraphQLInt)},
+				description: {type: new graphql.GraphQLNonNull(GraphQLString)}
+			},
+			resolve: (parent, args) => {
+				const newProject = new Project({
+
+				})
+			}
+		}
+	})
 });
 
 const tasks = [
