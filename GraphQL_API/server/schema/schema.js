@@ -77,14 +77,34 @@ const Mutation = new graphql.GraphQLObjectType({
 		addProject: {
 			type: ProjectType,
 			args: {
-				title: {type: new graphql.GraphQLNonNull(GraphQLString)},
-				weight: {type: new graphql.GraphQLNonNull(GraphQLInt)},
-				description: {type: new graphql.GraphQLNonNull(GraphQLString)}
+				title: {type: new graphql.GraphQLNonNull(graphql.GraphQLString)},
+				weight: {type: new graphql.GraphQLNonNull(graphql.GraphQLInt)},
+				description: {type: new graphql.GraphQLNonNull(graphql.GraphQLString)}
 			},
 			resolve: (parent, args) => {
 				const newProject = new Project({
-
-				})
+					title: args.title,
+					weight: args.weight,
+					description: args.description
+				});
+				return newProject.save();
+			}
+		},
+		addTask: {
+			type: TaskType,
+			args: {
+				title: {type: new graphql.GraphQLNonNull(graphql.GraphQLString)},
+				weight: {type: new graphql.GraphQLNonNull(graphql.GraphQLInt)},
+				description: {type: new graphql.GraphQLNonNull(graphql.GraphQLString)},
+				projectId: {type: new graphql.GraphQLNonNull(graphql.GraphQLID)}
+			},
+			resolve: (parent, args) => {
+				const newTask = new Task({
+					title: args.title,
+					weight: args.weight,
+					description: args.description
+				});
+				return newTask.save();
 			}
 		}
 	})
@@ -124,6 +144,7 @@ const projects = [
 
 const schema = new graphql.GraphQLSchema({
 	query: RootQuery,
+	mutation: Mutation
 });
 
 module.exports = schema;
