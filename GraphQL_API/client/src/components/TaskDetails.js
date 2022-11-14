@@ -2,11 +2,9 @@ function TaskDetails(props) {
   console.log(props);
 
 
-  return ( <
+  return ( <div
     div id = "task-details" >
-    <
-    /
-    div >
+    </div>
   );
 }
 

@@ -1,6 +1,6 @@
 /*import ApolloClient from 'apollo-boost';*/
 import ApolloClient from 'apollo-boost';
-import {ApolloProvider} from 'react-apollo;'
+import {ApolloProvider} from 'react-apollo';
 // components
 import TaskList from './components/TaskList';
 import AddTask from './components/AddTask';
