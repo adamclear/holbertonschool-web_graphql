@@ -18,7 +18,57 @@ const getProjectsQuery = gql `
   }
 `;
 
+const addTaskMutation = gql `
+  mutation (
+    $title: String!
+    $weight: Int!
+    $description: String!
+    $projectId: ID!
+  ) {
+    addTask(
+      title: $title
+      weight: $weight
+      description: $description
+      projectId: $projectId
+    ) {
+       title
+       id
+    }
+  }
+`;
+
+const addProjectMutation = gql `
+  mutation ($title: String!, $weight: Int!, $description: String!) {
+    addProject(title: $title, weight: $weight, description: $description) {
+      title
+      id
+    }
+  }
+`;
+
+const getTaskDetailQuery = gql `
+  query ($id: ID) {
+    task(id: $id) {
+      id
+      title
+      weight
+      description
+      project {
+        title
+        description
+        tasks {
+          title
+          id
+        }
+      }
+    }
+  }
+`;
+
 export {
   getTasksQuery,
-  getProjectsQuery
+  getProjectsQuery,
+  addTaskMutation,
+  addProjectMutation,
+  getTaskDetailQuery
 };

@@ -1,16 +1,8 @@
 import {useState} from "react";
-import {gql} from 'apollo-boost';
 import {graphql} from 'react-apollo';
-// components
 import TaskDetails from './TaskDetails';
+import { getTasksQuery } from '../queries/queries';
 
-const getTasksQuery = gql `
-{
-  tasks {
-    id
-    title
-  }
-}`;
 
 function TaskList(props) {
   const [state, setState] = useState({
@@ -25,22 +17,25 @@ function TaskList(props) {
       }
       else {
         return data.tasks.map(task => {
-            return (<li
-                      key = {task.id}
-                      onClick = {(e) => {
-                        setState({
-                          selected: task.id
-                        });
-                      }}>
-                        {task.title}
-                    </li>);
+          return (
+            <li
+              key={task.id}
+              onClick={(e) => {
+              setState({
+                selected: task.id
+              });
+              }}
+            >
+              {task.title}
+            </li>
+            );
             })
         }
      }
   return ( 
     <div>
-      <ul id = "task-list"> {displayTasks()}</ul> 
-      <TaskDetails />
+      <ul id = "task-list">{displayTasks()}</ul> 
+      <TaskDetails taskId={state.selected}/>
     </div>
   );
 }
